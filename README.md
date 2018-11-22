@@ -1,83 +1,134 @@
 # blockchain
 
-```{
+At startup, the chain contains only the genesis block 
+
+curl http://localhost:5000/chain
+
+```
+{
 	"chain": [{
 		"index": 1,
 		"previous_hash": 1,
 		"proof": 100,
-		"timestamp": 1542894182.6758103,
+		"timestamp": 1542895618.610925,
+		"transactions": []
+	}],
+	"length": 1
+}
+```
+
+curl http://localhost:5000/mine
+
+A new block is forged ad the miner receives a reward (1 coin) for finding the proof
+
+```
+{
+	"index": 2,
+	"message": "New Block Forged",
+	"previous_hash": "051242a9fd8ed454a65799c1cdaf33b1343adb9b395aea59ba554cccca965322",
+	"proof": 41047,
+	"transactions": [{
+		"amount": 1,
+		"recipient": "324a886d3a3b4e15a9ca08dfe26c6b00",
+		"sender": "0"
+	}]
+}
+```
+
+curl http://localhost:5000/chain 
+
+```
+{
+	"chain": [{
+		"index": 1,
+		"previous_hash": 1,
+		"proof": 100,
+		"timestamp": 1542895618.610925,
 		"transactions": []
 	}, {
 		"index": 2,
-		"previous_hash": "fb6aa32be60946c6de8e6a8a6441662d60de6087db6c8a1774925a570dbccf18",
+		"previous_hash": "051242a9fd8ed454a65799c1cdaf33b1343adb9b395aea59ba554cccca965322",
 		"proof": 41047,
-		"timestamp": 1542894201.2348988,
+		"timestamp": 1542895676.9379041,
 		"transactions": [{
 			"amount": 1,
-			"recipient": "1ad9410557d04491813a7209b9121633",
+			"recipient": "324a886d3a3b4e15a9ca08dfe26c6b00",
+			"sender": "0"
+		}]
+	}],
+	"length": 2
+}
+```
+
+curl -X POST -H "Content-Type: application/json" -d '{"sender": "d4ee26eee15148ee92c6cd394edd974e","recipient": "some-address", "amount": 10}'  http://localhost:5000/transactions
+```
+{"message":"Transaction will be added to Block 3"}
+```
+The block is not added to the chain until it is mined.
+
+curl http://localhost:5000/chain
+```
+{
+	"chain": [{
+		"index": 1,
+		"previous_hash": 1,
+		"proof": 100,
+		"timestamp": 1542895618.610925,
+		"transactions": []
+	}, {
+		"index": 2,
+		"previous_hash": "051242a9fd8ed454a65799c1cdaf33b1343adb9b395aea59ba554cccca965322",
+		"proof": 41047,
+		"timestamp": 1542895676.9379041,
+		"transactions": [{
+			"amount": 1,
+			"recipient": "324a886d3a3b4e15a9ca08dfe26c6b00",
+			"sender": "0"
+		}]
+	}],
+	"length": 2
+}
+```
+curl http://localhost:5000/mine
+
+curl http://localhost:5000/chain
+
+```
+{
+	"chain": [{
+		"index": 1,
+		"previous_hash": 1,
+		"proof": 100,
+		"timestamp": 1542895618.610925,
+		"transactions": []
+	}, {
+		"index": 2,
+		"previous_hash": "051242a9fd8ed454a65799c1cdaf33b1343adb9b395aea59ba554cccca965322",
+		"proof": 41047,
+		"timestamp": 1542895676.9379041,
+		"transactions": [{
+			"amount": 1,
+			"recipient": "324a886d3a3b4e15a9ca08dfe26c6b00",
 			"sender": "0"
 		}]
 	}, {
 		"index": 3,
-		"previous_hash": "1c7eb155a6502aceac09ed93e9adba54a1f4d585284b7a83f6f11683fd006b55",
+		"previous_hash": "e3105cf6103eeb312e1cdc779a55d29ea20547e4cee3992322cae1e02a3bf79e",
 		"proof": 26466,
-		"timestamp": 1542894245.5573785,
+		"timestamp": 1542895840.5416977,
 		"transactions": [{
-			"amount": 5,
-			"recipient": "someone-other-address",
-			"sender": "d4ee26eee15148ee92c6cd394edd974e"
-		}, {
-			"amount": 1,
-			"recipient": "1ad9410557d04491813a7209b9121633",
-			"sender": "0"
-		}]
-	}, {
-		"index": 4,
-		"previous_hash": "2d2551d64a8108ca6976561ef6ca3b6b6b71455fc117226524ec6b14581d9cf5",
-		"proof": 50434,
-		"timestamp": 1542894266.9579637,
-		"transactions": [{
-			"amount": 1,
-			"recipient": "1ad9410557d04491813a7209b9121633",
-			"sender": "0"
-		}]
-	}, {
-		"index": 5,
-		"previous_hash": "150aa3ea15c9c46c25e6a49a2d96a1d796f1e83ab6db41533c805f5bc829a6ec",
-		"proof": 152856,
-		"timestamp": 1542894586.823358,
-		"transactions": [{
-			"amount": 15,
-			"recipient": "someone-other-address",
-			"sender": "d4ee26eee15148ee92c6cd394edd974e"
-		}, {
-			"amount": 1,
-			"recipient": "1ad9410557d04491813a7209b9121633",
-			"sender": "0"
-		}]
-	}, {
-		"index": 6,
-		"previous_hash": "731a28a29178bbdd591db24027fd8f3072f88928c188dce150d98d04285ba422",
-		"proof": 36936,
-		"timestamp": 1542894748.3417513,
-		"transactions": [{
-			"amount": 8,
-			"recipient": "someone-other-address",
-			"sender": "d4ee26eee15148ee92c6cd394edd974e"
-		}, {
-			"amount": 17,
-			"recipient": "someone-other-address",
-			"sender": "d4ee26eee15148ee92c6cd394edd974e"
-		}, {
 			"amount": 10,
-			"recipient": "someone-other-address",
+			"recipient": "some-address",
 			"sender": "d4ee26eee15148ee92c6cd394edd974e"
 		}, {
 			"amount": 1,
-			"recipient": "1ad9410557d04491813a7209b9121633",
+			"recipient": "324a886d3a3b4e15a9ca08dfe26c6b00",
 			"sender": "0"
 		}]
 	}],
-	"length": 6
+	"length": 3
 }
+```
+
+```
 ```

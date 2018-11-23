@@ -16,8 +16,7 @@ blockchain = Blockchain()
 def mine():
     # We run the proof of work algorithm to get the next proof...
     last_block = blockchain.last_block
-    last_proof = last_block['proof']
-    proof = blockchain.proof_of_work(last_proof)
+    proof = blockchain. proof_of_work(last_block)
 
     # The sender is "0" to signify that this node has mined a new coin.
     blockchain.new_transaction(

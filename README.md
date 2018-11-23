@@ -132,6 +132,14 @@ curl http://localhost:5000/chain
 
 Register new nodes
 
-
 ```
+curl -X PUT -H "Content-Type: application/json" -d '{"nodes": ["http://localhost:5001"]}'  http://localhost:5000/nodes
+curl -X PUT -H "Content-Type: application/json" -d '{"nodes": ["http://localhost:5000"]}'  http://localhost:5001/nodes
 ```
+ 
+ 
+ Consensus
+ 
+``
+ curl http://localhost:5000/nodes/resolve
+``

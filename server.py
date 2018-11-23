@@ -1,5 +1,7 @@
 from uuid import uuid4
 from blockchain import Blockchain
+from argparse import ArgumentParser
+
 
 from flask import Flask, jsonify, request
 
@@ -81,5 +83,26 @@ def register_nodes():
     return jsonify(response), 201
 
 
+@app.route('/nodes/resolve', methods=['GET'])
+def consensus():
+    replaced = blockchain.resolve_conflicts()
+
+    if replaced:
+        response = {
+            'message': 'Our chain was replaced',
+            'new_chain': blockchain.chain
+        }
+    else:
+        response = {
+            'message': 'Our chain is authoritative',
+            'chain': blockchain.chain
+        }
+    return jsonify(response), 200
+
+
+parser = ArgumentParser()
+parser.add_argument("-p", "--port", required=True, help="Port of the blockchain node")
+args = vars(parser.parse_args())
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=args["port"])
